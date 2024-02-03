@@ -15,6 +15,7 @@ export class AuthController {
       if(user && await bcrypt.compare(password, user.password)){
         const payload = {
           id: user.id,
+          name: user.name,
           email: user.email
         }
         const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '1h'})
@@ -23,5 +24,10 @@ export class AuthController {
     } catch (error) {
       res.status(500).json({ message: 'Error al procesar la solicitud' });
     }
+  }
+
+  getUserInfo = async (req, res) => {
+    console.log(req.user)
+    return res.json({user: req.user})
   }
 }
