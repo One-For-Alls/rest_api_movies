@@ -11,16 +11,17 @@ export class MovieController {
 
     const moviesData = await this.movieModel.getAll({ genre })
 
-    const extractBasicInfo  = ({ title, director }) => ({
+    const extractBasicInfo  = ({ title, director, poster, date }) => ({
       title,
-      director
+      director,
+      poster,
+      date
     })
 
     const addDetailedInfo = (movie) => ({
       id: movie.id,
       director: movie.director,
       duration: movie.duration,
-      poster: movie.poster,
       rate: movie.rate,
       ...extractBasicInfo (movie)
     })
@@ -28,6 +29,20 @@ export class MovieController {
     const movies = moviesData.map( movie => user ? addDetailedInfo(movie) : extractBasicInfo(movie))
 
     res.json(movies)
+  }
+
+  getLast = async (req, res) => {
+    const {page, limit} = req.query
+
+    const lastMovies = await this.movieModel.getLast({page, limit})
+    if(lastMovies) return res.json(lastMovies)
+    return res.status(404).json({message: 'not found movies'})
+  }
+
+  getCategories = async (req, res) => {
+    const categories = await this.movieModel.getCategories()
+    if (categories) return res.json(categories)
+    res.status(400).json({ message: 'categories is empty' })
   }
 
   getId = async (req, res) => {

@@ -8,6 +8,8 @@ export const createMoviesRouter = ({  movieModel }) => {
   const movieController = new MovieController({ movieModel })
   
   moviesRouter.get('/', verifyToken, movieController.getAll)
+  moviesRouter.get('/categories', movieController.getCategories)
+  moviesRouter.get('/last', movieController.getLast)
   moviesRouter.get('/:id', movieController.getId)
   moviesRouter.post('/', movieController.create)
   moviesRouter.patch('/:id', movieController.update)
