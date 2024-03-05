@@ -19,7 +19,6 @@ export const corsMiddleware = ({acceptedOrigins = ACCEPTED_ORIGINS} = {}) => cor
     if (!origin) {
       return callback(null, origin || 'htpp://localhost/1234')
     }
-
     return callback(new Error('Not allowed by Cors'))
   })
 })

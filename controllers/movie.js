@@ -11,7 +11,8 @@ export class MovieController {
 
     const moviesData = await this.movieModel.getAll({ genre })
 
-    const extractBasicInfo  = ({ title, director, poster, date }) => ({
+    const extractBasicInfo  = ({ id, title, director, poster, date }) => ({
+      id,
       title,
       director,
       poster,
@@ -19,7 +20,6 @@ export class MovieController {
     })
 
     const addDetailedInfo = (movie) => ({
-      id: movie.id,
       director: movie.director,
       duration: movie.duration,
       rate: movie.rate,
@@ -81,6 +81,6 @@ export class MovieController {
     const result = await this.movieModel.delete({ id })
 
     if (!result) return res.status(404).json({ message: 'movie not found' })
-    return res.json({ message: 'movie deleted success' })
+    return res.status(204).json({ message: 'movie deleted success' })
   }
 }

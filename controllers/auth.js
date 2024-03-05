@@ -19,7 +19,9 @@ export class AuthController {
           email: user.email
         }
         const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: '1h'})
-        res.json(token)
+        res.json({token})
+      }else {
+        return res.status(404).json({message: 'user not found'})
       }
     } catch (error) {
       res.status(500).json({ message: 'Error al procesar la solicitud' });
@@ -27,7 +29,6 @@ export class AuthController {
   }
 
   getUserInfo = async (req, res) => {
-    console.log(req.user)
     return res.json({user: req.user})
   }
 }

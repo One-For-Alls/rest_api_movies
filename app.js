@@ -11,9 +11,9 @@ export const createApp = ({ movieModel, authModel }) => {
 
   app.use('/movies', createMoviesRouter({ movieModel }))
   app.use('/auth', createAuthRouter({ authModel }))
-
+  
   const PORT = process.env.PORT || 1234
-
+  
   app.listen(PORT, () => {
     console.log(`escuchando desde el puerto http://localhost:${PORT}/movies`)
   })

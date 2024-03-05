@@ -29,7 +29,14 @@ const movieSchema = z.object({
       required_error: 'genero es requerido'
     }
   ),
-  rate: z.number().min(0).max(10).default(0)
+  rate: z.number().min(0).max(10).default(0),
+  date: z.string().refine((val) => {
+    // Expresión regular para validar el formato YYYY-MM-DD
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    return regex.test(val) && !isNaN(new Date(val).getTime());
+  }, {
+    message: "La fecha debe estar en el formato YYYY-MM-DD y ser una fecha válida.",
+  })
 })
 
 export function validaCreateteMovie(obj) {

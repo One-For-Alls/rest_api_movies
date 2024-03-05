@@ -106,16 +106,16 @@ export class MovieModel {
 
   static async create(input) {
     // const id = randomUUID()
+    const connection = await pool.getConnection()
     const [[resultUUID]] = await connection.query('SELECT UUID() as uuid')
     const { uuid } = resultUUID
-    const { title, year_creation, director, duration, poster, rate } = input
+    const { title, year_creation, director, duration, poster, rate, date } = input
 
-    const connection = await pool.getConnection()
     try {
       await connection.query(`INSERT INTO movies 
-      (id, title, year_creation, director, duration, poster, rate) 
-      VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [uuid, title, year_creation, director, duration, poster, rate])
+      (id, title, year_creation, director, duration, poster, rate, date) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [uuid, title, year_creation, director, duration, poster, rate, date])
 
     } catch (e) {
       throw new Error('huvo un error: ', e)
