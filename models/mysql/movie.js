@@ -12,6 +12,7 @@ export class MovieModel {
           m.poster,
           m.rate,
           m.date
+          ${(genre) ? ', g.id AS genre_id, g.name AS genre_name' : ''}
         FROM movies AS m`
 
       if (genre) {
@@ -68,12 +69,35 @@ export class MovieModel {
     try {
       const [lastMovies] = await pool.query('SELECT * FROM movies ORDER BY date desc LIMIT ? OFFSET ?', [limit, offset])
       if(lastMovies.length === 0) return false
-      return {
-        page,
-        limit,
-        offset,
-        data: lastMovies
-      }
+      return lastMovies
+    } catch (error) {
+      console.log(error)
+    } finally {
+      connection.release()
+    }
+  }
+
+  static async getBestMovies() {
+    const connection = await pool.getConnection()
+
+    try {
+      const [bestMovies] = await pool.query('SELECT id, title, poster, rate, year_creation FROM movies ORDER BY rate LIMIT 10')
+      if(bestMovies.length === 0) return false
+      return bestMovies
+    } catch (error) {
+      console.log(error)
+    } finally {
+      connection.release()
+    }
+  }
+
+  static async getMoreViews() {
+    const connection = await pool.getConnection()
+
+    try {
+      const [moreViews] = await pool.query('SELECT id, title, poster, rate, year_creation FROM movies ORDER BY rate DESC LIMIT 10')
+      if(moreViews.length === 0) return false
+      return moreViews
     } catch (error) {
       console.log(error)
     } finally {

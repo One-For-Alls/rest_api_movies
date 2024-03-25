@@ -11,12 +11,16 @@ export class MovieController {
 
     const moviesData = await this.movieModel.getAll({ genre })
 
-    const extractBasicInfo  = ({ id, title, director, poster, date }) => ({
+    console.log(genre)
+
+    const extractBasicInfo  = ({ id, title, director, poster, date, genre_id, genre_name }) => ({
       id,
       title,
       director,
       poster,
-      date
+      date,
+      genre_id,
+      genre_name
     })
 
     const addDetailedInfo = (movie) => ({
@@ -37,6 +41,19 @@ export class MovieController {
     const lastMovies = await this.movieModel.getLast({page, limit})
     if(lastMovies) return res.json(lastMovies)
     return res.status(404).json({message: 'not found movies'})
+  }
+  getBestMovies = async (req, res) => {
+
+    const bestMovies = await this.movieModel.getBestMovies()
+    if(bestMovies) return res.json(bestMovies)
+    return res.status(404).json({message: 'not found best movies'})
+  }
+  getMoreViews = async (req, res) => {
+
+    const moreViews = await this.movieModel.getMoreViews()
+    console.log(moreViews)
+    if(moreViews) return res.json(moreViews)
+    return res.status(404).json({message: 'not found movies more views'})
   }
 
   getCategories = async (req, res) => {
