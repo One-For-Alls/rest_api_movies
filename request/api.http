@@ -1,0 +1,48 @@
+### recuperar todas las pelis
+
+GET http://localhost:1234/movies
+
+### recuperar pelis por id
+GET http://localhost:1234/movies/ff1b9676-b5ac-11ee-8b84-cef565174412
+
+
+### recuperar pelis por categoria
+GET http://localhost:1234/movies/?genre=TERROR
+
+
+### crear una nuea pelicula
+POST http://localhost:1234/movies
+Content-Type: application/json
+
+{
+    "title": "Avatar",
+    "year_creation": 2016,
+    "director": "Roberto",
+    "duration": 230,
+    "poster": "https://i.ebayimg.com/images/g/yokAAOSw8w1YARbm/s-l1200.jpg",
+    "genre": [
+      "Sci-fi"
+    ],
+    "rate": 6.2
+}
+
+### update una nuea pelicula
+PATCH http://localhost:1234/movies/ff1b9676-b5ac-11ee-8b84-cef565174412
+Content-Type: application/json
+
+{
+    "title": "digimon adventure 02",
+    "year_creation": 2024,
+    "director": "Aziel",
+    "duration": 124,
+    "poster": "https://i.ebayimg.com/images/g/yokAAOSw8w1YARbm/s-l1200.jpg",
+    "genre": [
+      "Anime",
+      "Drama"
+    ],
+    "rate": 6.5
+}
+
+### delete una nuea pelicula
+
+DELETE http://localhost:1234/movies/07c6571c-b41a-11ee-9f6b-14cb1970ed5c
