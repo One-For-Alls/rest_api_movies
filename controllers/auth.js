@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 export class AuthController {
@@ -12,7 +12,8 @@ export class AuthController {
     try {
       const [user] = await this.authModel.findByEmail({ email })
 
-      if(user && await bcrypt.compare(password, user.password)){
+      if(user && await bcryptjs.compareSync(password, user.password)){
+
         const payload = {
           id: user.id,
           name: user.name,
